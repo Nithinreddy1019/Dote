@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check-resolve": "node -e \"console.log(require.resolve('convex/values'))\""
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.2.5",
