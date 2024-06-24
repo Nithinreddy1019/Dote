@@ -1,7 +1,12 @@
 "use client"
+import { Skeleton } from "@/components/ui/skeleton";
+import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronLeft, LucideIcon } from "lucide-react";
+import { useMutation } from "convex/react";
+import { ChevronDown, ChevronRight, LucideIcon, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
  
 
@@ -32,19 +37,46 @@ export const Item = ({
     icon: Icon
 }: ItemProps) => {
 
-    const ChevronIcon = expanded ? ChevronDown : ChevronLeft;
+    const router = useRouter();
 
+    const create = useMutation(api.documents.create);
 
+    const handleExpand = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        event.stopPropagation();
+
+        onExpand?.();
+    }
+    
+    const onCreate = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        event.stopPropagation();
+        if(!id) return;
+
+        const promise = create({ title: "Untitled", parentDocument: id}).then((documentId) => {
+            if(!expanded) {
+                onExpand?.()
+            }
+            //router.push(`/documents/${documentId}`)
+        });
+
+        toast.promise(promise, {
+            loading: "Creating a new page...",
+            success:"Created new page",
+            error: "Failed to create new page"
+        })
+
+    }
+
+    const ChevronIcon = expanded ? ChevronDown : ChevronRight;
 
     return (
         <div
             onClick={onClick}
             role="button"
             style={{
-                paddingLeft: level ? `${(level * 12) + 12}` : "12px"
+                paddingLeft: level ? `${(level * 12) + 12}px` : "12px"
             }}
             className={cn(
-                "group min-h-[27px] text-sm py-1.5 pr-3 w-full hover:bg-primary flex items-center font-medium",
+                "group min-h-[27px] text-sm py-1.5 pr-3 w-full hover:bg-primary/25 flex items-center font-medium",
                 active && "bg-primary"
             )}
         >
@@ -52,7 +84,7 @@ export const Item = ({
                 <div
                     role="button"
                     className="h-full rounded-sm hover:bg-secondary mr-1"
-                    onClick={() => {}} 
+                    onClick={handleExpand} 
                 >
                     <ChevronIcon 
                         className="h-4 w-4 shrink-0 opacity-50"
@@ -80,6 +112,34 @@ export const Item = ({
                     </kbd>
                 )
             }
+            {
+                !!id && (
+                    <div className="ml-auto flex items-center gap-x-2">
+                        <div 
+                            role="button"
+                            onClick={onCreate}
+                            className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-[5px] hover:bg-secondary">
+                            <Plus className="h-4 w-4 text-muted-foreground"/>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     )
 };
+
+
+
+Item.Skeleton = function ItemSkeleton({ level }: { level?: number}) {
+    return (
+        <div
+            style={{
+                paddingLeft: level ? `${(level * 12) + 25}px` : "12px"
+            }}
+            className="flex gap-x-2 py-[3px]"
+        >
+            <Skeleton className="h-4 w-4"/>
+            <Skeleton className="h-4 w-[30%]"/>
+        </div>
+    )
+}

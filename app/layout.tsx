@@ -44,7 +44,7 @@ export default function RootLayout({
             disableTransitionOnChange
             storageKey="dote-theme"
           >
-            <Toaster />
+            <Toaster richColors/>
           {children}
           </ThemeProvider>
         </ConvexClientProvider>
