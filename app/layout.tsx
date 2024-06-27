@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ConvexClientProvider } from "@/components/providers/convex-provider";
+import { ModalProvider } from "@/components/providers/modal-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 const lexend = Lexend({subsets:["latin"], weight: ["400"]})
@@ -45,6 +46,7 @@ export default function RootLayout({
             storageKey="dote-theme"
           >
             <Toaster richColors/>
+            <ModalProvider />
           {children}
           </ThemeProvider>
         </ConvexClientProvider>
