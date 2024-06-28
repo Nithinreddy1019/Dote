@@ -146,7 +146,7 @@ export const Item = ({
                             >
                                 <div
                                     role="button"
-                                    className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-[5px] hover:bg-secondary"
+                                    className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-[5px] hover:bg-secondary hover:text-neutral-600"
                                 >
                                     <MoreHorizontal className="w-4 h-4"/>
                                 </div>
