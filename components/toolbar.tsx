@@ -4,7 +4,7 @@ import { Doc } from "@/convex/_generated/dataModel"
 import { IconPicker } from "./icon-picker"
 import { Button } from "./ui/button"
 import { ImageIcon, Smile, X } from "lucide-react"
-import { ElementRef, useRef, useState } from "react"
+import { ElementRef, use, useRef, useState } from "react"
 import { useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import TextareaAutosize from "react-textarea-autosize";
@@ -25,6 +25,7 @@ export const Toolbar = ({
     const [value, setValue] = useState(initialData.title);
 
     const update = useMutation(api.documents.update);
+    const removeIcon = useMutation(api.documents.removeIcon);
 
     const enableInput = () => {
         if (preview) return;
@@ -55,18 +56,32 @@ export const Toolbar = ({
         }
     }
 
+    const onIconSelect = (icon: string) => {
+        update({
+            id: initialData._id,
+            icon,
+        })
+    };
+
+    const onRemoveIcon = () => {
+        removeIcon({
+            id: initialData._id
+        })
+    };
+
+
 
     return (
         <div className="pl-[54px] group relative">
             {!!initialData.icon && !preview && (
                 <div className="flex items-center gap-x-2 group/icon pt-6">
-                    <IconPicker onChange={() => {}}>
+                    <IconPicker onChange={onIconSelect}>
                         <p className="text-6xl hover:opacity-75 transition">
                             {initialData.icon}
                         </p>
                     </IconPicker>
                     <Button
-                        onClick={() => {}}
+                        onClick={onRemoveIcon}
                         className="rounded-full opacity-0 group-hover:opacity-100 transition text-xs"
                         variant="outline"
                         size="icon"
@@ -84,7 +99,7 @@ export const Toolbar = ({
                 {!initialData.icon && !preview && (
                     <IconPicker
                         asChild
-                        onChange={() => {}}
+                        onChange={onIconSelect}
                     >
                         <Button 
                             className="text-xs" variant="outline" 
