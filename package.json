@@ -10,6 +10,9 @@
     "check-resolve": "node -e \"console.log(require.resolve('convex/values'))\""
   },
   "dependencies": {
+    "@blocknote/core": "^0.14.5",
+    "@blocknote/mantine": "^0.14.6",
+    "@blocknote/react": "^0.14.6",
     "@clerk/clerk-react": "^5.2.5",
     "@edgestore/react": "^0.1.7",
     "@edgestore/server": "^0.1.7",
