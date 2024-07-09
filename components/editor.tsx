@@ -25,20 +25,23 @@ export const Editor = ({
 }: EditorProps) => {
 
     const { resolvedTheme } = useTheme();
+    const [blocks, setBlocks] = useState<Block[]>([]);
 
-    const [blocks, setBlocks] = useState<Block[]>([])
-
+    if(JSON.parse(initialContent as string).length === 0) {
+        initialContent = undefined;
+    }
     const editor: BlockNoteEditor = useCreateBlockNote({
         initialContent: initialContent ? JSON.parse(initialContent) as PartialBlock[] : undefined,
     })
 
 
-
-
+    useEffect(() => {
+        onChange(JSON.stringify(blocks, null, 2));
+    }, [blocks])
+    
     const hanldeDocumentChange = () => {
         const newBlocks = editor.document;
         setBlocks(newBlocks);
-        onChange(JSON.stringify(blocks, null, 2));
     };
 
     return (
