@@ -6,7 +6,11 @@ import {
     PartialBlock
 } from "@blocknote/core";
 import { useCreateBlockNote } from "@blocknote/react";
-import { BlockNoteView } from "@blocknote/mantine";
+import { 
+    BlockNoteView,
+    darkDefaultTheme,
+    Theme
+} from "@blocknote/mantine";
 import { useTheme } from "next-themes";
 import "@blocknote/mantine/style.css";
 import { useCallback, useEffect, useState } from "react";
@@ -48,6 +52,14 @@ const Editor = ({
         uploadFile: handleUpload
     });
 
+    const newDarkTheme = {
+        colors: {
+            editor: {
+                background: "#0C0A09"
+            }
+        }
+    } satisfies Theme;
+
     const hanldeDocumentChange = () => {
         const newBlocks = editor.document;
         setBlocks(newBlocks);
@@ -59,7 +71,7 @@ const Editor = ({
             <BlockNoteView 
                 editor={editor}
                 editable={editable}
-                theme={resolvedTheme === "dark" ? "dark" : "light"}
+                theme={resolvedTheme === "dark" ? newDarkTheme : "light"}
                 onChange={hanldeDocumentChange}
             />
         </div>
