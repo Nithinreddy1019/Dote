@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings, Trash2} from "lucide-react";
+import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings, Trash2, SquarePlus } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
@@ -16,9 +16,12 @@ import { Trashbox } from "./trashbox";
 import { useSearch } from "@/hooks/use-search";
 import { useSettings } from "@/hooks/use-settings";
 import Navbar from "./navbar";
+import { CreateRoomModal } from "@/components/modals/create-room-modal";
+import { RoomList } from "./room-list";
 
 export const Navigation = () => {
     const create = useMutation(api.documents.create);
+    const createRoom = useMutation(api.rooms.createRoom);
 
     const search = useSearch();
     const settings = useSettings();
@@ -126,6 +129,18 @@ export const Navigation = () => {
         });
     }
 
+    const hanldeRoomCreate = (roomName: string) => {
+        const promise = createRoom({
+            roomName: roomName
+        })
+
+        toast.promise(promise, {
+            loading: "Creating a room...",
+            success: "Room created successfully",
+            error: "Failed to create new room"
+        })
+    }
+
     return (
         <>
             <aside
@@ -157,6 +172,17 @@ export const Navigation = () => {
                         label="New Page" 
                         icon={PlusCircle}
                     />
+                    <CreateRoomModal onConfirm={hanldeRoomCreate}>
+                        <Item 
+                            label="Create Room"
+                            icon={SquarePlus}
+                        />
+                    </CreateRoomModal>
+                    
+                </div>
+                <div className="h-[2px] bg-primary/50 mt-4"/>
+                <div className="mt-4">
+                    <RoomList />
                 </div>
                 <div className="mt-4">
                     <DocumentList />
