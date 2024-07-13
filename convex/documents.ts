@@ -76,6 +76,9 @@ export const getSidebar = query({
         .filter((q) => 
             q.eq(q.field("isArchived"), false)
         )
+        .filter((q) => 
+            q.eq(q.field("roomId"), undefined)
+        )
         .order("desc")
         .collect()
 

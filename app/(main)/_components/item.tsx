@@ -157,6 +157,11 @@ export const Item = ({
                                 side="right"
                                 forceMount
                             >
+                                
+                                <DropdownMenuItem>
+                                    <Plus className="w-4 h-4 mr-2"/>
+                                    Add to room
+                                </DropdownMenuItem>
                                 <DropdownMenuItem onClick={onArchive}>
                                    <Trash2 className="w-4 h-4 mr-2"/>
                                    Delete 

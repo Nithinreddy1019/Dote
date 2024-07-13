@@ -20,6 +20,7 @@ export default defineSchema({
     rooms: defineTable({
         roomName: v.string(),
         creatorId: v.string(),
+        creatorName: v.string(),
         members: v.optional(v.array(v.string())),
         pages: v.optional(v.array(v.id("documents")))
     })

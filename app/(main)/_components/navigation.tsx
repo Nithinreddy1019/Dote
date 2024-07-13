@@ -180,10 +180,11 @@ export const Navigation = () => {
                     </CreateRoomModal>
                     
                 </div>
-                <div className="h-[2px] bg-primary/50 mt-4"/>
+
                 <div className="mt-4">
                     <RoomList />
                 </div>
+
                 <div className="mt-4">
                     <DocumentList />
 

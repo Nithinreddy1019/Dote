@@ -14,6 +14,7 @@ export const createRoom = mutation({
         }
 
         const userId = identity.subject;
+        const creatorName = identity.name as string;
 
         const existingRoomName = await ctx.db.query("rooms")
             .filter((q) => q.eq(q.field("roomName"), args.roomName))
@@ -26,6 +27,7 @@ export const createRoom = mutation({
         const room = await ctx.db.insert("rooms", {
             roomName: args.roomName,
             creatorId: userId,
+            creatorName: creatorName,
             members: [userId]
         });
 
@@ -85,7 +87,8 @@ export const getRoomById = query({
 
         return ({
             id: room._id,
-            name: room.roomName
+            roomName: room.roomName,
+            creatorName: room.creatorName
         })
     }
 })
